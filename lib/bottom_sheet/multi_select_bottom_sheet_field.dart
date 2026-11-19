@@ -1,5 +1,5 @@
 import 'package:collection/collection.dart' show IterableExtension;
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import '../util/multi_select_list_type.dart';
 import '../chip_display/multi_select_chip_display.dart';
 import '../util/multi_select_item.dart';

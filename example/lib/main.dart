@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 
 void main() {
@@ -24,20 +24,20 @@ class Animal {
   final String name;
 
   Animal({
-    this.id,
-    this.name,
+    required this.id,
+    required this.name,
   });
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({Key? key, required this.title}) : super(key: key);
   final String title;
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  static List<Animal> _animals = [
+  static final List<Animal> _animals = [
     Animal(id: 1, name: "Lion"),
     Animal(id: 2, name: "Flamingo"),
     Animal(id: 3, name: "Hippo"),
@@ -66,7 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
     Animal(id: 26, name: "Dragonfly"),
     Animal(id: 27, name: "Dolphin"),
   ];
-  final _items = _animals
+  late final _items = _animals
       .map((animal) => MultiSelectItem<Animal>(animal, animal.name))
       .toList();
   //List<Animal> _selectedAnimals = [];
@@ -148,7 +148,9 @@ class _MyHomePageState extends State<MyHomePage> {
                       title: Text("Animals"),
                       items: _items,
                       onConfirm: (values) {
-                        _selectedAnimals2 = values;
+                        setState(() {
+                          _selectedAnimals2 = values.cast<Animal>();
+                        });
                       },
                       chipDisplay: MultiSelectChipDisplay(
                         onTap: (value) {
@@ -158,7 +160,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         },
                       ),
                     ),
-                    _selectedAnimals2 == null || _selectedAnimals2.isEmpty
+                    _selectedAnimals2.isEmpty
                         ? Container(
                             padding: EdgeInsets.all(10),
                             alignment: Alignment.centerLeft,
@@ -194,16 +196,16 @@ class _MyHomePageState extends State<MyHomePage> {
                 },
                 onConfirm: (values) {
                   setState(() {
-                    _selectedAnimals3 = values;
+                    _selectedAnimals3 = values.cast<Animal>();
                   });
-                  _multiSelectKey.currentState.validate();
+                  _multiSelectKey.currentState?.validate();
                 },
                 chipDisplay: MultiSelectChipDisplay(
                   onTap: (item) {
                     setState(() {
                       _selectedAnimals3.remove(item);
                     });
-                    _multiSelectKey.currentState.validate();
+                    _multiSelectKey.currentState?.validate();
                   },
                 ),
               ),
@@ -217,7 +219,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 title: Text("Animals"),
                 headerColor: Colors.blue.withOpacity(0.5),
                 decoration: BoxDecoration(
-                  border: Border.all(color: Colors.blue[700], width: 1.8),
+                  border: Border.all(color: Colors.blue.shade700, width: 1.8),
                 ),
                 selectedChipColor: Colors.blue.withOpacity(0.5),
                 selectedTextStyle: TextStyle(color: Colors.blue[800]),
@@ -231,7 +233,9 @@ class _MyHomePageState extends State<MyHomePage> {
               //################################################################################################
               MultiSelectDialogField(
                 onConfirm: (val) {
-                  _selectedAnimals5 = val;
+                  setState(() {
+                    _selectedAnimals5 = val.cast<Animal>();
+                  });
                 },
                 dialogWidth: MediaQuery.of(context).size.width * 0.7,
                 items: _items,
